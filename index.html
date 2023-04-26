@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<head>
+    <script src="node_modules/highcharts/highcharts.js"></script>    
+    <script src="node_modules/highcharts/highcharts-more.js"></script>
+    <style>
+        #container{
+            width: 500px;
+            height: 100px;            
+        }        
+    </style>
+    <body>
+        <div id="container"></div>
+    </body>
+    <script>
+        Highcharts.chart('container', {
+            chart: {
+                type: 'boxplot',
+                inverted: true
+            },
+
+            title: {
+                text: ''
+            },
+
+            legend: {
+                enabled: false
+            },
+
+            xAxis: {
+                categories: ['1', '2'],
+                labels: {
+                    enabled: false
+                }
+            },
+
+            yAxis: {
+                title: {
+                    text: ''
+                },
+                min: 0,
+                max: 10,
+                tickInterval: 1,
+            },
+
+            tooltip: {
+                positioner: function () {
+                    return { x: 0, y: 50 };
+                },
+                formatter: function(){                     
+                    var name = this.series.name;
+                    if(name=='Punto'){
+                        var value = this.series.data[0].options.y;                        
+                        return `<b>Valor</b>: ${value}`;
+                    }else{
+                        var ds = this.series.data[0].options;
+                        var min = ds.low;
+                        var max = ds.high;
+                        var median = ds.median;
+                        var q1 = ds.q1;
+                        var q3 = ds.q3;
+                        return `<b>${name}</b> - min: ${min} ,q1: ${q1} ,mediana: ${median} ,q3: ${q3} ,max: ${max}`;
+                    }
+                }
+            },
+
+            /*
+            plotOptions: {
+                boxplot: {
+                    fillColor: '#F0F0E0',
+                    lineWidth: 2,
+                    medianColor: '#0C5DA5',
+                    medianWidth: 3,
+                    stemColor: '#A63400',                    
+                    stemWidth: 1,
+                    whiskerColor: '#3D9200',
+                    whiskerLength: '20%',
+                    whiskerWidth: 3
+                }
+            },*/
+
+            series: [
+                {
+                    name: 'Rodal 1',
+                    data: [                        
+                        [2, 4, 5, 6, 9]
+                    ],                    
+                    fillColor: 'green',
+                    lineColor: 'green',
+                    whiskerColor: 'green',
+                    stemColor: 'green',
+                    medianWidth: 3,
+                    whiskerWidth: 3,
+                    lineWidth: 2
+                },{
+                    name: 'Rodal 2',
+                    data: [                                         
+                        [1, 2, 3, 7, 8]
+                    ],
+                    fillColor: 'orange',
+                    lineColor: 'orange',
+                    whiskerColor: 'orange',
+                    stemColor: 'orange',
+                    medianWidth: 3,
+                    whiskerWidth: 3,
+                    lineWidth: 2                    
+                },
+                {                    
+                    name: "Punto",
+                    type: 'scatter',
+                    data: [5],
+                    marker: {
+                        symbol: 'circle',
+                        fillColor: '#FF6600',
+                        lineColor: '#FF6600',
+                        radius: 10
+                    }       
+                }
+            ]
+        });
+    </script>
+</head>
